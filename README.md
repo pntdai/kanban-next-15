@@ -1,4 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js 15 Project Structure
+
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+## Project Structure
+
+```
+project-root/
+├── src/                    # Application source code
+│   ├── app/                # Next.js App Router pages
+│   │   ├── ui/             # Basic UI elements
+│   │   └── features/       # Feature-specific components
+│   ├── lib/                # Utility functions and shared logic
+│   ├── hooks/              # Custom React hooks
+│   ├── types/              # TypeScript type definitions
+│   └── styles/             # Global styles and theme
+├── public/                 # Static assets
+├── prisma/                 # Database schema (Prisma)
+│   └── schema.prisma
+├── app/                    # API routes (Next.js Route Handlers)
+│   └── api/                # Backend API endpoints
+│       └── [...]/route.ts
+├── config/                 # Configuration files
+├── scripts/                # Utility scripts
+├── middleware.ts           # Next.js middleware
+├── next.config.ts          # Next.js configuration
+├── package.json
+└── tsconfig.json
+```
 
 ## Getting Started
 
@@ -16,9 +44,26 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Backend Integration
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project includes a backend API using Next.js Route Handlers located in the `app/api` directory. The API endpoints follow RESTful conventions and are protected by middleware where necessary.
+
+### Database
+
+The project uses Prisma ORM with PostgreSQL. The database schema is defined in `prisma/schema.prisma`.
+
+To set up the database:
+
+1. Create a `.env` file in the root directory with your database connection string:
+
+   ```
+   DATABASE_URL="postgresql://username:password@localhost:5432/mydb?schema=public"
+   ```
+
+2. Run Prisma migrations:
+   ```bash
+   npx prisma migrate dev --name init
+   ```
 
 ## Learn More
 

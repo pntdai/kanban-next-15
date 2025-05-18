@@ -1,0 +1,1 @@
+- What is the best structure for small project, including the Backend. Give us the visualization and folder of project?
