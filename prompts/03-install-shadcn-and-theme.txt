@@ -1,0 +1,2 @@
+- Based on the setup of folder structure. Let's install and configure shadcn/ui in our Nextjs project. We will need several components including Diaglog, Form. Button components.
+- I also need light/dark theme mode support, using the best and most popular Next.js solution for that.
