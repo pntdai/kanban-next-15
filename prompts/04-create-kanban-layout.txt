@@ -1,0 +1,5 @@
+- Let's create the Kanban-style board layout using shadcn/ui and Tailwind based on the structure folder that has been setup.
+- Note that:
+- The kanban UI just contain three columns: TODO, IN-PROGRESS and DONE.
+- Each column should be able to display task card. Each card content 3 fields only such as Title, Description and Priority.
+- Please also remove redundant files if it not used.

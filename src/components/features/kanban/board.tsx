@@ -51,10 +51,22 @@ const SAMPLE_TASKS: Task[] = [
 
 export function KanbanBoard() {
   return (
-    <div className="h-full grid grid-cols-1 md:grid-cols-3 gap-4">
-      <Column title="To Do" status="todo" tasks={SAMPLE_TASKS} />
-      <Column title="In Progress" status="in-progress" tasks={SAMPLE_TASKS} />
-      <Column title="Done" status="done" tasks={SAMPLE_TASKS} />
+    <div className="flex h-full w-full">
+      <div className="flex-1 flex flex-col md:flex-row gap-4 w-full">
+        <div className="flex-1">
+          <Column title="To Do" status="todo" tasks={SAMPLE_TASKS} />
+        </div>
+        <div className="flex-1">
+          <Column
+            title="In Progress"
+            status="in-progress"
+            tasks={SAMPLE_TASKS}
+          />
+        </div>
+        <div className="flex-1">
+          <Column title="Done" status="done" tasks={SAMPLE_TASKS} />
+        </div>
+      </div>
     </div>
   );
 }

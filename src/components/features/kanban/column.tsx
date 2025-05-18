@@ -15,8 +15,8 @@ export function Column({ title, status, tasks }: ColumnProps) {
   const filteredTasks = tasks.filter((task) => task.status === status);
 
   return (
-    <Card className="h-full flex flex-col">
-      <CardHeader className="py-3 px-4 border-b">
+    <Card className="h-full flex flex-col overflow-hidden">
+      <CardHeader className="py-3 px-4 border-b shrink-0">
         <div className="flex justify-between items-center">
           <CardTitle className="text-md font-medium">{title}</CardTitle>
           <span className="bg-gray-200 dark:bg-gray-800 text-xs font-medium px-2 py-1 rounded-full">
