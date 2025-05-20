@@ -1,0 +1,5 @@
+- Please implement feature fetching 'columns' and tasks.
+- Please use Server components "use server" when possible to avoid useEffect in client side.
+Note that:
+- Just implement feature fetching 'columns' and 'tasks' only.
+- Please strictly care about each file that play a role as client or server side. 

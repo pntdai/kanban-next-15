@@ -1,71 +1,36 @@
-"use client";
+import { getColumnWithTasks } from "@/lib/actions/kanban";
+import { Column as ColumnType, Task } from "@/types/kanban";
+import { Column as ColumnComponent } from "./column";
 
-import { Task } from "@/types/kanban";
-import { Column } from "./column";
+export async function KanbanBoard() {
+  // Fetch columns and tasks from the server
+  const { columns } = await getColumnWithTasks();
 
-// Sample data for demonstration
-const SAMPLE_TASKS: Task[] = [
-  {
-    id: "1",
-    title: "Research competitors",
-    description: "Analyze top 5 competitors and their features",
-    priority: "high",
-    status: "todo",
-  },
-  {
-    id: "2",
-    title: "Design homepage",
-    description: "Create wireframes for the new homepage",
-    priority: "medium",
-    status: "todo",
-  },
-  {
-    id: "3",
-    title: "Setup authentication",
-    description: "Implement user login and registration",
-    priority: "high",
-    status: "in-progress",
-  },
-  {
-    id: "4",
-    title: "API documentation",
-    description: "Document all API endpoints for the frontend team",
-    priority: "low",
-    status: "in-progress",
-  },
-  {
-    id: "5",
-    title: "Fix navigation bug",
-    description: "Fix the dropdown menu bug in mobile view",
-    priority: "medium",
-    status: "done",
-  },
-  {
-    id: "6",
-    title: "Implement dark mode",
-    description: "Add dark mode support to the application",
-    priority: "low",
-    status: "done",
-  },
-];
+  // Cast the returned data to match our types
+  const typedColumns = columns.map((column: any) => ({
+    ...column,
+    tasks:
+      column.tasks?.map((task: any) => ({
+        ...task,
+        priority: task.priority as Task["priority"],
+        status: task.status as Task["status"],
+        createdAt: new Date(task.createdAt),
+        updatedAt: new Date(task.updatedAt),
+      })) || [],
+  }));
 
-export function KanbanBoard() {
   return (
-    <div className="flex h-full w-full">
-      <div className="flex-1 flex flex-col md:flex-row gap-4 w-full">
-        <div className="flex-1">
-          <Column title="To Do" status="todo" tasks={SAMPLE_TASKS} />
-        </div>
-        <div className="flex-1">
-          <Column
-            title="In Progress"
-            status="in-progress"
-            tasks={SAMPLE_TASKS}
-          />
-        </div>
-        <div className="flex-1">
-          <Column title="Done" status="done" tasks={SAMPLE_TASKS} />
-        </div>
+    <div className="flex h-full w-full overflow-x-auto">
+      <div className="flex-1 flex gap-4 w-full min-w-full">
+        {typedColumns.map((column: ColumnType) => (
+          <div key={column.id} className="flex-1 min-w-[300px]">
+            <ColumnComponent
+              id={column.id}
+              title={column.title}
+              tasks={column.tasks || []}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );

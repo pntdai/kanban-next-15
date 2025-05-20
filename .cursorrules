@@ -2,3 +2,4 @@
 - The project is using Tailwind CSS for styling.
 - The project is using Shadcn UI for components.
 - Every single time we need to run a shadcn command, use `npx shadcn@latest`
+- This project is using Postgresql database and Prisma for type ORM.
