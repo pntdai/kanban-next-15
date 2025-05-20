@@ -10,41 +10,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  password  String
-  role      String   @default("user")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  posts     Post[]
-  profile   Profile?
-
-  @@map("users")
-}
-
-model Profile {
-  id        String   @id @default(uuid())
-  bio       String?
-  avatar    String?
-  userId    String   @unique @map("user_id")
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("profiles")
-}
-
-model Post {
+model Column {
   id        String   @id @default(uuid())
   title     String
-  content   String?
-  published Boolean  @default(false)
-  authorId  String   @map("author_id")
-  author    User     @relation(fields: [authorId], references: [id])
+  order     Int
+  tasks     Task[]
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("posts")
+  @@map("columns")
+}
+
+model Task {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  priority    String   // "low", "medium", "high"
+  status      String   // "todo", "in-progress", "done"
+  order       Int
+  columnId    String   @map("column_id")
+  column      Column   @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("tasks")
 } 

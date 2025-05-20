@@ -1,0 +1,6 @@
+- We need to setup a database that will keep the data from this project. Let's store columns & tasks to match with UI that we finished before in the database.
+- Before starting to setup database, we need to remove redundant schema that we setup before that not relevant to the project.
+- Use postgresql database & Prisma for the type ORM.
+- For now, setup the docker compose file for postgresql, and Prisma connection setup etc (Note that I use Macbook M1 chip).
+- You have to provide step by step instruction for me.
+- And finally, Don't touch the React components or pages yet.
