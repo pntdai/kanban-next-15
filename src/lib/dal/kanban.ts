@@ -118,4 +118,38 @@ export class KanbanDAL {
       },
     });
   }
+
+  /**
+   * Update task column and order after drag and drop
+   */
+  static async updateTaskColumnAndOrder(
+    id: string,
+    columnId: string,
+    newOrder: number
+  ) {
+    return prisma.task.update({
+      where: {
+        id,
+      },
+      data: {
+        columnId,
+        order: newOrder,
+      },
+    });
+  }
+
+  /**
+   * Reorder tasks in a column
+   */
+  static async reorderTasks(tasks: { id: string; order: number }[]) {
+    // Create a transaction to update multiple tasks at once
+    const updateOperations = tasks.map((task) =>
+      prisma.task.update({
+        where: { id: task.id },
+        data: { order: task.order },
+      })
+    );
+
+    return prisma.$transaction(updateOperations);
+  }
 }

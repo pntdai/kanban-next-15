@@ -1,0 +1,2 @@
+- Base on the CRUD action in server side with tasks and UI implemented before.
+- Now, I want to implement feature drag and drop and remember that, If implement this feature please install necessary pack and update information when drag and drop to another columns into database.

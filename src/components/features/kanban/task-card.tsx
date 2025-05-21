@@ -57,7 +57,7 @@ export function TaskCard({ task }: TaskCardProps) {
   };
 
   return (
-    <Card className="w-full mb-3 cursor-grab active:cursor-grabbing">
+    <Card className="w-full mb-0 cursor-grab active:cursor-grabbing">
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <CardTitle className="text-sm font-medium">{task.title}</CardTitle>
