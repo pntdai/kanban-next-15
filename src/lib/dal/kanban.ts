@@ -77,4 +77,34 @@ export class KanbanDAL {
       },
     });
   }
+
+  /**
+   * Get a single task by ID
+   */
+  static async getTaskById(id: string) {
+    return prisma.task.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+
+  /**
+   * Update an existing task
+   */
+  static async updateTask(id: string, data: TaskFormValues) {
+    return prisma.task.update({
+      where: {
+        id,
+      },
+      data: {
+        title: data.title,
+        description: data.description || null,
+        priority: data.priority,
+        status: data.status,
+        columnId: data.columnId,
+        // Note: We don't update the order here to maintain the task's position
+      },
+    });
+  }
 }

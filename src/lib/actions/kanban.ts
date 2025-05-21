@@ -54,7 +54,11 @@ export async function createTask(values: z.infer<typeof taskFormSchema>) {
     // Revalidate the cache for the kanban board
     revalidatePath("/");
 
-    return { success: true, task: newTask };
+    return {
+      success: true,
+      task: newTask,
+      message: "Task created successfully",
+    };
   } catch (error) {
     if (error instanceof z.ZodError) {
       return { success: false, error: error.format() };
@@ -62,5 +66,56 @@ export async function createTask(values: z.infer<typeof taskFormSchema>) {
 
     console.error("Failed to create task:", error);
     return { success: false, error: "Failed to create task" };
+  }
+}
+
+export async function getTaskById(id: string) {
+  try {
+    const task = await KanbanDAL.getTaskById(id);
+
+    if (!task) {
+      return { success: false, error: "Task not found" };
+    }
+
+    return { success: true, task };
+  } catch (error) {
+    console.error("Failed to fetch task:", error);
+    return { success: false, error: "Failed to fetch task" };
+  }
+}
+
+export async function updateTask(
+  id: string,
+  values: z.infer<typeof taskFormSchema>
+) {
+  try {
+    // Check if task exists
+    const existingTask = await KanbanDAL.getTaskById(id);
+
+    if (!existingTask) {
+      return { success: false, error: "Task not found" };
+    }
+
+    // Validate the form data on the server
+    const validatedFields = taskFormSchema.parse(values);
+
+    // Update the task
+    const updatedTask = await KanbanDAL.updateTask(id, validatedFields);
+
+    // Revalidate the cache for the kanban board
+    revalidatePath("/");
+
+    return {
+      success: true,
+      task: updatedTask,
+      message: "Task updated successfully",
+    };
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return { success: false, error: error.format() };
+    }
+
+    console.error("Failed to update task:", error);
+    return { success: false, error: "Failed to update task" };
   }
 }

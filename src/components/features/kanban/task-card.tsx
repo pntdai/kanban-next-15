@@ -1,14 +1,37 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Task, TaskPriority } from "@/types/kanban";
+import { getColumns } from "@/lib/actions/kanban";
+import { Column, Task, TaskPriority } from "@/types/kanban";
+import { Edit } from "lucide-react";
+import { useEffect, useState } from "react";
+import { EditTaskDialog } from "./edit-task-dialog";
 
 interface TaskCardProps {
   task: Task;
 }
 
 export function TaskCard({ task }: TaskCardProps) {
+  const [columns, setColumns] = useState<Column[]>([]);
+
+  // Fetch available columns for the edit dialog
+  useEffect(() => {
+    const fetchColumns = async () => {
+      try {
+        const result = await getColumns();
+        if (result.columns) {
+          setColumns(result.columns as Column[]);
+        }
+      } catch (error) {
+        console.error("Error fetching columns:", error);
+      }
+    };
+
+    fetchColumns();
+  }, []);
+
   const getPriorityColor = (priority: TaskPriority) => {
     switch (priority) {
       case "low":
@@ -22,14 +45,31 @@ export function TaskCard({ task }: TaskCardProps) {
     }
   };
 
+  const onTaskUpdated = (updatedTask: Task) => {
+    // The page will be revalidated by the server action
+    // This is just a placeholder for any additional client-side updates if needed
+  };
+
   return (
     <Card className="w-full mb-3 cursor-grab active:cursor-grabbing">
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <CardTitle className="text-sm font-medium">{task.title}</CardTitle>
-          <Badge className={getPriorityColor(task.priority)}>
-            {task.priority}
-          </Badge>
+          <div className="flex items-center gap-2">
+            <Badge className={getPriorityColor(task.priority)}>
+              {task.priority}
+            </Badge>
+            <EditTaskDialog
+              taskId={task.id}
+              columns={columns}
+              onTaskUpdated={onTaskUpdated}
+              trigger={
+                <Button size="icon" variant="ghost" className="h-6 w-6">
+                  <Edit className="h-3.5 w-3.5" />
+                </Button>
+              }
+            />
+          </div>
         </div>
       </CardHeader>
       <CardContent>
