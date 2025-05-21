@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { TaskFormValues } from "@/lib/schemas/task";
 
 /**
  * Data Access Layer for Kanban operations
@@ -43,6 +44,36 @@ export class KanbanDAL {
       },
       orderBy: {
         order: "asc",
+      },
+    });
+  }
+
+  /**
+   * Get tasks by column ID
+   */
+  static async getTasksByColumnId(columnId: string) {
+    return prisma.task.findMany({
+      where: {
+        columnId,
+      },
+      orderBy: {
+        order: "asc",
+      },
+    });
+  }
+
+  /**
+   * Create a new task
+   */
+  static async createTask(data: TaskFormValues & { order: number }) {
+    return prisma.task.create({
+      data: {
+        title: data.title,
+        description: data.description || null,
+        priority: data.priority,
+        status: data.status,
+        order: data.order,
+        columnId: data.columnId,
       },
     });
   }

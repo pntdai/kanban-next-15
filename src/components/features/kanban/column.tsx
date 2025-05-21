@@ -1,7 +1,10 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Task } from "@/types/kanban";
+import { Column as ColumnType, Task } from "@/types/kanban";
+import { Plus } from "lucide-react";
+import { CreateTaskDialog } from "./create-task-dialog";
 import { TaskCard } from "./task-card";
 
 interface ColumnProps {
@@ -21,7 +24,7 @@ export function Column({ id, title, tasks }: ColumnProps) {
           </span>
         </div>
       </CardHeader>
-      <CardContent className="flex-1 overflow-y-auto p-3">
+      <CardContent className="flex-1 overflow-y-auto p-3 flex flex-col gap-3">
         {tasks.length > 0 ? (
           tasks.map((task) => <TaskCard key={task.id} task={task} />)
         ) : (
@@ -29,6 +32,24 @@ export function Column({ id, title, tasks }: ColumnProps) {
             <p className="text-sm text-gray-500 dark:text-gray-400">No tasks</p>
           </div>
         )}
+
+        <CreateTaskDialog
+          columns={[
+            {
+              id,
+              title,
+              order: 0,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            },
+          ]}
+          defaultColumnId={id}
+          trigger={
+            <Button size="sm" variant="outline" className="mt-2 w-full">
+              <Plus className="h-4 w-4 mr-1" /> Add Task
+            </Button>
+          }
+        />
       </CardContent>
     </Card>
   );

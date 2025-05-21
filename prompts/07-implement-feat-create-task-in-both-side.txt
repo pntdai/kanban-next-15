@@ -1,0 +1,4 @@
+- Continue to implement feature create kanban task and store each task to database.
+- Based on the implemented UI, please use react hooks form and zod to validate schema fields in client side file only .
+- Please create an API create task on server side also.
+- Install necessary package also using npm.
