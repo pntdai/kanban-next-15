@@ -119,3 +119,28 @@ export async function updateTask(
     return { success: false, error: "Failed to update task" };
   }
 }
+
+export async function deleteTask(id: string) {
+  try {
+    // Check if task exists before deletion
+    const existingTask = await KanbanDAL.getTaskById(id);
+
+    if (!existingTask) {
+      return { success: false, error: "Task not found" };
+    }
+
+    // Delete the task
+    await KanbanDAL.deleteTask(id);
+
+    // Revalidate the cache for the kanban board
+    revalidatePath("/");
+
+    return {
+      success: true,
+      message: "Task deleted successfully",
+    };
+  } catch (error) {
+    console.error("Failed to delete task:", error);
+    return { success: false, error: "Failed to delete task" };
+  }
+}

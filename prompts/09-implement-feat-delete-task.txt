@@ -1,0 +1,4 @@
+- Continue to implement feature “edit” kanban task and updat each task to database.
+- Based on the implemented UI, please continue using react hooks form and zod to validate schema fields in client side with “edit” tasks
+- Please create an API edit task on server side also.
+- Install necessary package also.

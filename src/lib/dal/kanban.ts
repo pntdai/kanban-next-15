@@ -107,4 +107,15 @@ export class KanbanDAL {
       },
     });
   }
+
+  /**
+   * Delete a task by ID
+   */
+  static async deleteTask(id: string) {
+    return prisma.task.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }

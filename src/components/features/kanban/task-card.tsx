@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getColumns } from "@/lib/actions/kanban";
 import { Column, Task, TaskPriority } from "@/types/kanban";
-import { Edit } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { DeleteTaskDialog } from "./delete-task-dialog";
 import { EditTaskDialog } from "./edit-task-dialog";
 
 interface TaskCardProps {
@@ -50,6 +51,11 @@ export function TaskCard({ task }: TaskCardProps) {
     // This is just a placeholder for any additional client-side updates if needed
   };
 
+  const onTaskDeleted = () => {
+    // The page will be revalidated by the server action
+    // This is just a placeholder for any additional client-side updates if needed
+  };
+
   return (
     <Card className="w-full mb-3 cursor-grab active:cursor-grabbing">
       <CardHeader className="pb-2">
@@ -59,16 +65,34 @@ export function TaskCard({ task }: TaskCardProps) {
             <Badge className={getPriorityColor(task.priority)}>
               {task.priority}
             </Badge>
-            <EditTaskDialog
-              taskId={task.id}
-              columns={columns}
-              onTaskUpdated={onTaskUpdated}
-              trigger={
-                <Button size="icon" variant="ghost" className="h-6 w-6">
-                  <Edit className="h-3.5 w-3.5" />
-                </Button>
-              }
-            />
+
+            <div className="flex">
+              <EditTaskDialog
+                taskId={task.id}
+                columns={columns}
+                onTaskUpdated={onTaskUpdated}
+                trigger={
+                  <Button size="icon" variant="ghost" className="h-6 w-6">
+                    <Edit className="h-3.5 w-3.5" />
+                  </Button>
+                }
+              />
+
+              <DeleteTaskDialog
+                taskId={task.id}
+                taskTitle={task.title}
+                onTaskDeleted={onTaskDeleted}
+                trigger={
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="h-6 w-6 text-red-500 hover:text-red-700 hover:bg-red-50"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </Button>
+                }
+              />
+            </div>
           </div>
         </div>
       </CardHeader>
